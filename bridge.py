@@ -332,7 +332,7 @@ try:
                 raise Exception("Could not connect to cec adapter")
         except Exception as e:
             print("ERROR: Could not initialise CEC:", str(e))
-            os.service('tvservice -o')
+            os.system('tvservice -o')
             exit(1)
 
     ### Setup IR ###
