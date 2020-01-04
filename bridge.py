@@ -53,7 +53,7 @@ def mqtt_on_connect(client, userdata, flags, rc):
         ])
 
     # Publish birth message
-    client.publish(config['mqtt']['prefix'] + '/bridge/status', 'online', qos=1, retain=True)
+    mqtt_send(config['mqtt']['prefix'] + '/bridge/status', 'online', retain=True)
 
 
 def mqtt_on_message(client, userdata, message):
@@ -276,14 +276,14 @@ def cec_refresh():
             cec_send('8F', id=int(id))
 
         cec_send('71', id=5)
-        client.publish(config['mqtt']['prefix'] + '/bridge/status', 'online', qos=1, retain=True)
+        mqtt_send(config['mqtt']['prefix'] + '/bridge/status', 'online', retain=True)
     except Exception as e:
         print("Error during refreshing: ", str(e))
 
 
 def cleanup():
     mqtt_client.loop_stop()
-    mqtt_client.publish(config['mqtt']['prefix'] + '/bridge/status', 'offline', qos=1, retain=True)
+    mqtt_send(config['mqtt']['prefix'] + '/bridge/status', 'offline', retain=True)
     mqtt_client.disconnect()
     if int(config['ir']['enabled']) == 1:
         lirc.deinit()
