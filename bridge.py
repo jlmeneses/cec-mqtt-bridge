@@ -276,7 +276,7 @@ def cec_refresh():
             cec_send('8F', id=int(id))
 
         cec_send('71', id=5)
-
+       client.publish(config['mqtt']['prefix'] + '/bridge/status', 'online', qos=1, retain=True)
     except Exception as e:
         print("Error during refreshing: ", str(e))
 
